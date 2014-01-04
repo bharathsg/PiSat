@@ -34,7 +34,11 @@ int main (void)
 {
 	board_init();
 	
-	//Pin configurations
+
+	
+	/************************
+		Pin configurations
+	 ************************/
 	
 	//Make them Peripheral lines
 	AVR32_GPIO.port[0].gper &= ~((1<<29) | (1<<30));			//Clears 29th & 30th bits (makes them peripheral pins)
@@ -45,8 +49,10 @@ int main (void)
 	AVR32_GPIO.port[0].odmers = 1;
 	AVR32_GPIO.port[0].odmers = 1;
 	
-	//TWI configurations
-	
+	/************************
+		TWI configurations
+	 ************************/
+
 	//TWI Clock Generator Register
 	AVR32_TWI.CWGR.chdiv = 19;												
 	AVR32_TWI.CWGR.cldiv = 19;		
@@ -56,12 +62,11 @@ int main (void)
 	/***************************
 			SNAP COMMAND
 	***************************/
-
-	/*
-	SENDING PART:
-	This is a code for sending a command in general. 
-	Edit variables cmd_size and cmd to change what you're sending
-	*/
+	
+	/****************************
+		Sending (In general)
+	*****************************/
+	
 	
 	int data_count=0;									//data counter variable
 	int cmd_size = 4;									//Size of the command (no. of bytes)
@@ -84,7 +89,7 @@ int main (void)
 		while(AVR32_TWI.SR.txrdy == 0)
 			;//STFU and wait
 		
-		AVR32_TWI.THR.txdata = cmd[data_count];
+		AVR32_TWI.THR.txdata = cmd[data_count]
 		data_count++;
 			
 		while(data_count<cmd_size){
@@ -92,7 +97,7 @@ int main (void)
 			while(AVR32_TWI.SR.txrdy == 0)
 			;//STFU and wait
 			
-			AVR32_TWI.THR.txdata = cmd[data_count];
+			AVR32_TWI.THR.txdata = cmd[data_count]
 			data_count++;	
 		}
 		
