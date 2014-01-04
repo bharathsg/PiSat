@@ -30,6 +30,17 @@
 #include <stdio.h>
 #define nanocam_addr 0x06 //Nanocam address
 
+struct list_reply{
+	Byte csp_header[4];
+	Byte status;
+	Byte base_addr[4];
+	Byte img_type[2];
+	Byte img_size[4];
+	Byte junk[5];
+	} reply_components;
+
+int i;
+
 int main (void)
 {
 	board_init();
@@ -54,7 +65,7 @@ int main (void)
 	
 	
 	/***************************
-			SNAP COMMAND
+			LIST COMMAND
 	***************************/
 
 	/*
@@ -126,6 +137,24 @@ int main (void)
 
 					}
 	}
-			
+	
+	
+	//This puts the reply in a more readable structured manner
+	for(i=0; i<4; i++)
+		reply_components.csp_header[i] = reply[i];
+		
+	reply_components.status = reply[4];
+	
+	for(i=5; i<9; i++)
+		reply_components.base_addr[i-5] = reply[i];
+		
+	for(i=9; i<11; i++)
+		reply_components.img_type[i-9] = reply[i];
+	
+	for(i=11; i<15; i++)
+		reply_components.img_size[i-11] = reply[i];
+	
+	for(i=15; i<19; i++)
+		reply_components.junk[i-15] = reply[i];
+		
 }
-

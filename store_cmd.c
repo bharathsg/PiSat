@@ -54,7 +54,7 @@ int main (void)
 	
 	
 	/***************************
-			SNAP COMMAND
+			STORE COMMAND
 	***************************/
 
 	/*
