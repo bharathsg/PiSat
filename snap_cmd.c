@@ -92,12 +92,6 @@ int main (void)
 		//Starts the Transfer
 		AVR32_TWI.CR.start = 1;
 		
-		while(AVR32_TWI.SR.txrdy == 0)
-			;//wait
-		
-		AVR32_TWI.THR.txdata = cmd[data_count];
-		data_count++;
-		
 		while(data_count<cmd_size){
 			
 			while(AVR32_TWI.SR.txrdy == 0)

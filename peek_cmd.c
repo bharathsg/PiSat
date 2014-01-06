@@ -33,7 +33,7 @@
 struct list_reply{
 	Byte csp_header[4];
 	Byte status;
-	long base_addr;
+	uint32_t base_addr;
 	Byte img_type[2];
 	Byte img_size[4];
 	Byte junk[5];
@@ -110,13 +110,7 @@ int main (void)
 	AVR32_TWI.MMR.iadrsz = 0;											//no internal address
 	
 	if( AVR32_TWI.SR.txcomp == 1){ 
-					
-		//Starts the Transfer
-		AVR32_TWI.CR.start = 1;
-		
-		while(AVR32_TWI.SR.txrdy == 0)
-			;//wait
-		
+
 		AVR32_TWI.THR.txdata = cmd[data_count];
 		data_count++;
 			
