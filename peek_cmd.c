@@ -33,7 +33,7 @@
 struct list_reply{
 	Byte csp_header[4];
 	Byte status;
-	Byte base_addr[4];
+	long base_addr;
 	Byte img_type[2];
 	Byte img_size[4];
 	Byte junk[5];
@@ -80,15 +80,22 @@ int main (void)
 	Edit variables cmd_size and cmd to change what you're sending
 	*/
 	
-	static int num_chunks = 0;							//Nothing has been sent intially
-	Byte chunk_base_addr[4];
+	static int num_chunks = 0;							//Nothing has been sent initially
+	uint32_t chunk_base_addr;
 	const int chunk_size = 120;
-	chunk_base_addr[i] = reply_components.base_addr[i] + num_chunks*chunk_size;
+	chunk_base_addr = reply_components.base_addr + num_chunks*chunk_size;
+	Byte chunk_addr_components[4];
+	
+	chunk_addr_components[0] = (chunk_base_addr>>24) & (0x000F);
+	chunk_addr_components[1] = (chunk_base_addr>>16) & (0x000F);
+	chunk_addr_components[2] = (chunk_base_addr>>8) & (0x000F);
+	chunk_addr_components[3] = (chunk_base_addr>>0) & (0x000F);
+	
 	
 	int data_count=0;									//data counter variable
 	int cmd_size = 131;									//Size of the command (no. of bytes)
 	//RE CHECK THIS COMMAND
-	Byte cmd[131] = {0x0A, 0x60, 0x00, 0x00, 0x00, chunk_base_addr[0], chunk_base_addr[1], chunk_base_addr[2], chunk_base_addr[3], 0x78};
+	Byte cmd[131] = {0x0A, 0x60, 0x00, 0x00, 0x00, chunk_addr_components[0], chunk_addr_components[1], chunk_addr_components[2], chunk_addr_components[3], 0x78};
 	
 	//TWI Control Register
 	AVR32_TWI.CR.msen = 1;												//Enable Master mode				
@@ -130,7 +137,7 @@ int main (void)
 	*/
 	
 	//CHECK THIS
-	int data_size = 131;					//Expect to receive 20 bytes of data
+	int data_size = 131;					//Expect to receive 131 bytes of data
 	Byte reply[data_size];				//Array to hold received data
 	
 	AVR32_TWI.CR.msdis = 1;
