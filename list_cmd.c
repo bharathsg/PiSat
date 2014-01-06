@@ -92,7 +92,7 @@ int main (void)
 	AVR32_TWI.MMR.mread = 0;											//Master write
 	AVR32_TWI.MMR.iadrsz = 0;											//no internal address
 	
-	while( AVR32_TWI.SR.txcomp == 1){ 
+	if( AVR32_TWI.SR.txcomp == 1){ 
 					
 		//Starts the Transfer
 		AVR32_TWI.CR.start = 1;

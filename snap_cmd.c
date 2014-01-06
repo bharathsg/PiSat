@@ -87,7 +87,7 @@ int main (void)
 	AVR32_TWI.MMR.mread = 0;											//Master write
 	AVR32_TWI.MMR.iadrsz = 0;											//no internal address
 	
-	while( AVR32_TWI.SR.txcomp == 1){ 
+	if( AVR32_TWI.SR.txcomp == 1){ 
 					
 		//Starts the Transfer
 		AVR32_TWI.CR.start = 1;
@@ -95,15 +95,15 @@ int main (void)
 		while(AVR32_TWI.SR.txrdy == 0)
 			;//wait
 		
-		AVR32_TWI.THR.txdata = cmd[data_count]
+		AVR32_TWI.THR.txdata = cmd[data_count];
 		data_count++;
-			
+		
 		while(data_count<cmd_size){
 			
 			while(AVR32_TWI.SR.txrdy == 0)
 			;//wait
 			
-			AVR32_TWI.THR.txdata = cmd[data_count]
+			AVR32_TWI.THR.txdata = cmd[data_count];
 			data_count++;	
 		}
 		
