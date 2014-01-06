@@ -66,12 +66,15 @@ int main (void)
 	
 	/***************************
 			PEEK COMMAND
-	***************************/
+	***************************
+	NOTE:
+	This section is supposed to be inside a funciton. For testing purposes we have 
+	put it in the main function. 
+	*/
 
 	/*
 	This assumes that the list command has been executed before this.
 	Hence, reply_components must be filled up with meaningful information.
-	DO: WAIT RA MACHA FLAG
 	*/
 
 	/*
@@ -112,7 +115,7 @@ int main (void)
 		AVR32_TWI.CR.start = 1;
 		
 		while(AVR32_TWI.SR.txrdy == 0)
-			;//STFU and wait
+			;//wait
 		
 		AVR32_TWI.THR.txdata = cmd[data_count];
 		data_count++;
@@ -120,7 +123,7 @@ int main (void)
 		while(data_count<cmd_size){
 			
 			while(AVR32_TWI.SR.txrdy == 0)
-			;//STFU and wait
+			;//wait
 			
 			AVR32_TWI.THR.txdata = cmd[data_count];
 			data_count++;	

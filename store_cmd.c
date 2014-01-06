@@ -55,8 +55,12 @@ int main (void)
 	
 	/***************************
 			STORE COMMAND
-	***************************/
-
+	***************************
+	NOTE:
+	This section is supposed to be inside a funciton. For testing purposes we have 
+	put it in the main function. 
+	*/
+	
 	/*
 	SENDING PART:
 	This is a code for sending a command in general. 
@@ -82,7 +86,7 @@ int main (void)
 		AVR32_TWI.CR.start = 1;
 		
 		while(AVR32_TWI.SR.txrdy == 0)
-			;//STFU and wait
+			;//wait
 		
 		AVR32_TWI.THR.txdata = cmd[data_count];
 		data_count++;
@@ -90,7 +94,7 @@ int main (void)
 		while(data_count<cmd_size){
 			
 			while(AVR32_TWI.SR.txrdy == 0)
-			;//STFU and wait
+			;//wait
 			
 			AVR32_TWI.THR.txdata = cmd[data_count];
 			data_count++;	

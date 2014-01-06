@@ -66,8 +66,13 @@ int main (void)
 	
 	/***************************
 			LIST COMMAND
-	***************************/
-
+	***************************
+	NOTE:
+	This section is supposed to be inside a funciton. For testing purposes we have 
+	put it in the main function. 
+	*/
+	
+	
 	/*
 	SENDING PART:
 	This is a code for sending a command in general. 
@@ -93,7 +98,7 @@ int main (void)
 		AVR32_TWI.CR.start = 1;
 		
 		while(AVR32_TWI.SR.txrdy == 0)
-			;//STFU and wait
+			;//wait
 		
 		AVR32_TWI.THR.txdata = cmd[data_count];
 		data_count++;
@@ -101,7 +106,7 @@ int main (void)
 		while(data_count<cmd_size){
 			
 			while(AVR32_TWI.SR.txrdy == 0)
-			;//STFU and wait
+			;//wait
 			
 			AVR32_TWI.THR.txdata = cmd[data_count];
 			data_count++;	
@@ -139,7 +144,8 @@ int main (void)
 	}
 	
 	
-	//This puts the reply in a more readable structured manner
+	// This puts the reply in a more readable structured manner so that it
+	// can be more useful for the peek command. 
 	for(i=0; i<4; i++)
 		reply_components.csp_header[i] = reply[i];
 		

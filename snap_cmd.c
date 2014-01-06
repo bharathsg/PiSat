@@ -61,11 +61,17 @@ int main (void)
 	
 	/***************************
 			SNAP COMMAND
-	***************************/
+	***************************
+	NOTE:
+	This section is supposed to be inside a funciton. For testing purposes we have 
+	put it in the main function. 
+	*/
 	
-	/****************************
-		Sending (In general)
-	*****************************/
+	/*
+	SENDING PART:
+	This is a code for sending a command in general. 
+	Edit variables cmd_size and cmd to change what you're sending
+	*/
 	
 	
 	int data_count=0;									//data counter variable
@@ -87,7 +93,7 @@ int main (void)
 		AVR32_TWI.CR.start = 1;
 		
 		while(AVR32_TWI.SR.txrdy == 0)
-			;//STFU and wait
+			;//wait
 		
 		AVR32_TWI.THR.txdata = cmd[data_count]
 		data_count++;
@@ -95,7 +101,7 @@ int main (void)
 		while(data_count<cmd_size){
 			
 			while(AVR32_TWI.SR.txrdy == 0)
-			;//STFU and wait
+			;//wait
 			
 			AVR32_TWI.THR.txdata = cmd[data_count]
 			data_count++;	
